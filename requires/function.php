@@ -33,7 +33,12 @@ function getTodoById($id){
     $todo = $query->fetch(PDO::FETCH_ASSOC);
     return $todo;
 }
-
+function changeStateTodo($id, $state){
+    $con = getConnexion();
+    $query = $con->prepare("UPDATE todo SET `done`= :done WHERE `id`= :id");
+    $result = $query->execute(array(":id"=>$id, ":done"=>$state));
+    return $result;
+}
 function updateTodo($id, $task, $imgPath = null, $forceDelete = false){
     $con = getConnexion();
     $query = $con->prepare("UPDATE todo SET `task`= :task WHERE `id`= :id");

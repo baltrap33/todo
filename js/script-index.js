@@ -13,6 +13,8 @@ $(document).ready(function(){
             let result = response.updated;
             if(result === "success"){
                 toastr.success('la tâche a été mise à jour.');
+                let todo = response.todo, updatedAt = todo.updated_at;
+                $(".todo-updated-at",$("#todo-row-id-"+idTodo)).text(updatedAt);
             }else{
                 toastr.info('la tâche sélectionnée n\'est pas disponible.');
             }

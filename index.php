@@ -31,7 +31,7 @@ $todos = getAllTodo();
                         $dateCreated = new DateTime($task_date_created);
                         $dateUpdated = new DateTime($task_date_updated);
                     ?>
-                        <tr>
+                        <tr id="todo-row-id-<?= $todo["id"]; ?>">
                             <th scope="row"><?= $todo["id"]; ?></th>
                             <td style="max-width: 120px;"><img <?=
                                 !empty($todo["imgPath"]) ?
@@ -47,7 +47,7 @@ $todos = getAllTodo();
                                 </label>
                             </td>
                             <td><?= $dateCreated->format('H:i d/m/Y'); ?></td>
-                            <td><?= $dateUpdated->format('H:i d/m/Y'); ?></td>
+                            <td class="todo-updated-at"><?= $dateUpdated->format('H:i d/m/Y'); ?></td>
                             <td class="row">
 
                                 <a href="/edit.php?id=<?= $todo["id"]; ?>">

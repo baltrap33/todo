@@ -4,13 +4,28 @@ require "./requires/function.php";
 $page = 'accueil';
 include "./includes/head.php";
 
-$todos = getAllTodo();
-
+$doneFilter = (isset($_GET["doneFilter"]) && !empty($_GET["doneFilter"]))? $_GET["doneFilter"] : null;
+$todos = getAllTodo($doneFilter);
 
 ?>
 
     <div class="container">
         <div class="row">
+            <h1 class="col-12">TODO list</h1>
+            <div class="col-12">
+                <form class="input-group mb-3" method="get" action="<?= $_SERVER["PHP_SELF"];?>">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Afficher</span>
+                    </div>
+                    <select class="form-control" id="doneFilter" name="doneFilter">
+                        <option value="" <?= $doneFilter == null ? "selected":"" ?>>toutes les tâches</option>
+                        <option value="false" <?= $doneFilter == 'false' ? "selected":"" ?>>les tâches à faire</option>
+                        <option value="true" <?= $doneFilter == 'true'? "selected":"" ?>>les tâches réalisées</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-5">
             <div class="col-12">
                 <table class="table table-striped">
                     <thead>

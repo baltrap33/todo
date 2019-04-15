@@ -61,6 +61,7 @@ $todo = getTodoById($id);
                                id="task" name="task"
                                placeholder="tâche à faire"
                                value="<?= $todo['task'];?>"
+                               autocomplete="Off"
                                required />
                     </div>
                     <div class="form-group">

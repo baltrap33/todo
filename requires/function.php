@@ -5,11 +5,20 @@ function getConnexion(){
     return DbPdo::pdoConnexion();
 }
 
-function getAllTodo(){
+function getAllTodo($doneFilter = null){
     $todos = [];
 
+    $filterString = '';
+    if( isset($doneFilter) && !empty($doneFilter) ){
+        $filterString = 'AND done = '.$doneFilter;
+    }
     $con = getConnexion();
-    $query = $con->prepare("SELECT * FROM `todo` INNER JOIN priority WHERE `todo`.`priority` = `priority`.`id_priority` ORDER BY `done` ASC, `priority`.`value` DESC");
+    $query = $con->prepare(
+        "SELECT * FROM `todo` 
+                INNER JOIN priority 
+                WHERE `todo`.`priority` = `priority`.`id_priority` $filterString
+                ORDER BY `done` ASC, 
+                `priority`.`value` DESC");
     $query->execute();
 
     while($row = $query->fetch(PDO::FETCH_ASSOC)){

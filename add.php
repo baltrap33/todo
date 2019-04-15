@@ -36,6 +36,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
                            class="form-control"
                            id="task" name="task"
                            placeholder="tâche à faire"
+                           autocomplete="Off"
                            required />
                 </div>
                 <div class="form-group">

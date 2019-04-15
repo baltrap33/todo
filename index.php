@@ -19,6 +19,7 @@ $todos = getAllTodo();
                         <th scope="col"></th>
                         <th scope="col">Task</th>
                         <th scope="col">Done</th>
+                        <th scope="col">Priority</th>
                         <th scope="col">Created at</th>
                         <th scope="col">Updated at</th>
                         <th></th>
@@ -46,6 +47,7 @@ $todos = getAllTodo();
                                     <span class="slider round"></span>
                                 </label>
                             </td>
+                            <td><?= $todo['name'] ?></td>
                             <td><?= $dateCreated->format('H:i d/m/Y'); ?></td>
                             <td class="todo-updated-at"><?= $dateUpdated->format('H:i d/m/Y'); ?></td>
                             <td class="row">

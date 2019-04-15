@@ -10,6 +10,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
     $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? $_POST["id"] : null;
     $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
     $task = (isset($_POST["task"]) && !empty($_POST["task"])) ? $_POST["task"] : null;
+    $priority = (isset($_POST["priority"]) && !empty($_POST["priority"])) ? $_POST["priority"] : null;
     $delete = (isset($_POST["delete"]) && !empty($_POST["delete"])) ? $_POST["delete"] : null;
 
     $target_file = null;
@@ -22,14 +23,14 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
         move_uploaded_file($file["tmp_name"], $target_file);
     }
 
-    $updated = updateTodo($id, $task, $target_file, boolval($delete));
+    $updated = updateTodo($id, $task,$priority, $target_file, boolval($delete));
     if ($updated){
         header("Location: /index.php");
         exit();
     }
 }
 
-
+$priorities = getAllPriority();
 $todo = getTodoById($id);
 ?>
     <div class="container">
@@ -61,6 +62,16 @@ $todo = getTodoById($id);
                                placeholder="tâche à faire"
                                value="<?= $todo['task'];?>"
                                required />
+                    </div>
+                    <div class="form-group">
+                        <label for="priority">Priorité :</label>
+                        <select class="form-control" id="priority" name="priority">
+                            <?php foreach ($priorities as $priority) {?>
+                                <option value="<?= $priority["id_priority"]; ?>"
+                                        <?= ($priority["id_priority"] == $todo["priority"])? "selected":"" ; ?>
+                                ><?= $priority["name"]; ?></option>
+                            <?php }?>
+                        </select>
                     </div>
                     <div class="form-group <?= (isset($todo["imgPath"]) && !empty($todo["imgPath"]))? 'd-none':''; ?>" id="add-img-btn">
                         <button type="button" class="btn btn-sm btn-success" id="btn-add-img">

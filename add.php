@@ -5,7 +5,10 @@ $page = 'création';
 include "./includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
+$priority = (isset($_POST["priority"]) && !empty($_POST["priority"]))? $_POST["priority"] : null;
 $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
+
+$priorities = getAllPriority();
 
 if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
     $target_file = null;
@@ -17,7 +20,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
         $target_file = $target_dir . $imageFileName . "-" . $time .".". $imageFileType;
         move_uploaded_file($file["tmp_name"], $target_file);
     }
-    if(createTodo($task, $target_file)){
+    if(createTodo($task, $priority, $target_file)){
         header("Location: index.php");
         exit();
     };
@@ -34,6 +37,14 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
                            id="task" name="task"
                            placeholder="tâche à faire"
                            required />
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priorité :</label>
+                    <select class="form-control" id="priority" name="priority">
+                        <?php foreach ($priorities as $priority) {?>
+                            <option value="<?= $priority["id_priority"]; ?>"><?= $priority["name"]; ?></option>
+                        <?php }?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="task">Ajouter une image :</label>

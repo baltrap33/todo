@@ -70,7 +70,13 @@ $todos = getAllTodo($doneFilter);
                                     'src="'.$todo["imgPath"].'"' :
                                     'src="./images/default.jpg"' ; ?>
                                 class="img-thumbnail" /></td>
-                            <td><?= $todo["task"]; ?></td>
+                            <td>
+                                <div><?= $todo["task"]; ?></div>
+                                <div><?php foreach ($todo["categories"] as $category){?>
+                                    <span class="badge badge-secondary mr-2"><?= $category["name"];?></span>
+                                    <?php } ?>
+                                </div>
+                            </td>
                             <td>
                                 <label class="switch">
                                     <input class="input-checked" data-value="<?= $todo["id"]; ?>"

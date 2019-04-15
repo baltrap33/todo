@@ -6,9 +6,12 @@ include "./includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
 $priority = (isset($_POST["priority"]) && !empty($_POST["priority"]))? $_POST["priority"] : null;
+$categoriesIds = (isset($_POST["categoriesIds"]) && !empty($_POST["categoriesIds"]))? $_POST["categoriesIds"] : null;
 $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
 
+
 $priorities = getAllPriority();
+$categories = getAllCategories();
 
 if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
     $target_file = null;
@@ -20,7 +23,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
         $target_file = $target_dir . $imageFileName . "-" . $time .".". $imageFileType;
         move_uploaded_file($file["tmp_name"], $target_file);
     }
-    if(createTodo($task, $priority, $target_file)){
+    if(createTodo($task, $priority, $target_file, $categoriesIds)){
         header("Location: index.php");
         exit();
     };
@@ -47,12 +50,40 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
                         <?php }?>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="btn-group">
+                                <button type="button"
+                                        class="btn btn-light dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    Ajouter une catégorie :
+                                </button>
+                                <div class="dropdown-menu">
+                                    <?php foreach($categories as $category){ ?>
+                                        <a class="dropdown-item add-category"
+                                           id="category-id-<?= $category["id_category"]?>"
+                                           data-value="<?= $category["id_category"]?>"
+                                           data-name="<?= $category["name"]?>"
+                                           href="#"><?= $category["name"]; ?></a>
+                                    <?php } ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/add_category.php">Créer une catégorie</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" id="categories"></div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="task">Ajouter une image :</label>
                     <input type="file"
                            class="form-control-file"
                            id="imgTodo" name="imgTodo" />
                 </div>
+
                 <div class="form-group">
                     <a href="/index.php">
                         <button type="button" class="btn btn-sm btn-info">Annuler</button>
@@ -65,7 +96,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
 </div>
 <?php
 
-$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js"];
+$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "script-add.js"];
 include "./includes/footer.php";
 
 ?>

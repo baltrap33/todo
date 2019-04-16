@@ -115,7 +115,7 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 
 <?php
 
-$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.js"];
+$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.js", "script-filter.js"];
 if ( $logged ) {
     array_push($scripts, "script-index.js");
 }

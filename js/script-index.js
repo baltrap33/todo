@@ -1,7 +1,4 @@
 $(document).ready(function(){
-    $("#doneFilter").change(function(){
-        $(this).parent().submit();
-    });
     $(".input-checked").change(function(){
         let state = $(this).prop("checked");
         let idTodo = $(this).attr("data-value");

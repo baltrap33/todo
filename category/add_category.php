@@ -9,8 +9,8 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
 }
 $page = '';
 $title = 'Création';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $name = (isset($_POST["name"]) && !empty($_POST["name"]))? $_POST["name"] : null;
 
@@ -21,7 +21,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $name){
         exit();
     };
 }
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
 <div class="container">
     <div class="row mt-3">
@@ -40,7 +40,7 @@ include "./includes/navbar.php";
                            required />
                 </div>
                 <div class="form-group">
-                    <a href="/list_category.php">
+                    <a href="/category/list_category.php">
                         <button type="button" class="btn btn-sm btn-info">Annuler</button>
                     </a>
                     <button class="btn btn-sm btn-danger float-right" type="submit">Enregistrer</button>
@@ -52,6 +52,6 @@ include "./includes/navbar.php";
 <?php
 
 $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js"];
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

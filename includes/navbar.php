@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">TodoList</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Todo list</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,9 +17,9 @@
                         Gestion des catégories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/list_category.php">Lister les catégories</a>
+                        <a class="dropdown-item" href="/category/list_category.php">Lister les catégories</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/add_category.php">Ajouter une catégorie</a>
+                        <a class="dropdown-item" href="/category/add_category.php">Ajouter une catégorie</a>
                     </div>
                 </li>
                 <li class="nav-item">

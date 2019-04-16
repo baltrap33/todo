@@ -9,8 +9,8 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
 }
 $page = '';
 $title = 'Edition';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $id = (isset($_GET["id"]) && !empty($_GET["id"])) ? $_GET["id"] : null;
 
@@ -23,7 +23,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 
     $target_file = null;
     if($file){
-        $target_dir = "./uploads/";
+        $target_dir = $_SERVER['DOCUMENT_ROOT']."/uploads/";
         $imageFileType = strtolower(pathinfo($file["name"],PATHINFO_EXTENSION));
         $imageFileName = strtolower(pathinfo($file["name"],PATHINFO_FILENAME));
         $time = time();
@@ -40,7 +40,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 
 $priorities = getAllPriority();
 $todo = getTodoById($id);
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
     <div class="container">
         <div class="row mt-3">
@@ -109,6 +109,6 @@ include "./includes/navbar.php";
 <?php
 
 $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "script-edit.js"];
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

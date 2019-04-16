@@ -7,7 +7,7 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
     header('Location: /login.php');
     exit;
 }
-require "./requires/function.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
 
 $id_category = (isset($_POST["id_category"]) && !empty($_POST["id_category"])) ? $_POST["id_category"] : null;
 

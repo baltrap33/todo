@@ -1,5 +1,5 @@
 <?php
-require "config/DbPdo.php";
+require $_SERVER['DOCUMENT_ROOT']."/config/DbPdo.php";
 
 $logged = false;
 if ( isset($_SESSION['isConnected']) && $_SESSION['isConnected'] === true ) {

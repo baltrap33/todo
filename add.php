@@ -9,8 +9,8 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
 }
 $page = '';
 $title = 'Création';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
 $priority = (isset($_POST["priority"]) && !empty($_POST["priority"]))? $_POST["priority"] : null;
@@ -33,7 +33,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
         exit();
     };
 }
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
 <div class="container">
     <div class="row mt-3">
@@ -78,6 +78,6 @@ include "./includes/navbar.php";
 <?php
 
 $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js"];
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

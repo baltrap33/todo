@@ -10,11 +10,11 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
 
 $page = 'category';
 $title = 'Categories';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $categories = getAllCategories();
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
 
     <div class="container">
@@ -29,7 +29,7 @@ include "./includes/navbar.php";
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th>
-                            <a href="/add_category.php">
+                            <a href="/category/add_category.php">
                                 <button class="btn btn-sm btn-success float-right">
                                     <i class="fas fa-plus"></i>
                                 </button>
@@ -46,13 +46,13 @@ include "./includes/navbar.php";
                             <th scope="row"><?= $category["id_category"]; ?></th>
                             <td><?= $category['name'] ?></td>
                             <td class="row float-right mr-1">
-                                <a href="/edit_category.php?id_category=<?= $category["id_category"]; ?>">
+                                <a href="/category/edit_category.php?id_category=<?= $category["id_category"]; ?>">
                                     <button class="btn btn-sm btn-info" type="button">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </a>
 
-                                <form class="ml-2" action="/delete_category.php" method="post">
+                                <form class="ml-2" action="/category/delete_category.php" method="post">
                                     <input type="hidden" name="id_category" value="<?= $category["id_category"]; ?>" />
                                     <button class="btn btn-sm btn-danger" type="submit">
                                         <i class="fas fa-trash"></i>
@@ -71,6 +71,6 @@ include "./includes/navbar.php";
 <?php
 
 $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js"];
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

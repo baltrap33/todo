@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 $page = 'login';
 $title = 'Se connecter';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $email = (isset($_POST['email']) && !empty($_POST['email'])) ? $_POST['email'] : '';
 $password = (isset($_POST['password']) && !empty($_POST['password'])) ? $_POST['password'] : '';
@@ -33,7 +33,7 @@ if (isset($_SESSION['isConnected']) && $_SESSION['isConnected'] === true) {
     header('Location: /index.php');
     exit;
 }
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height: -webkit-fill-available ;">
@@ -74,6 +74,6 @@ include "./includes/navbar.php";
 <?php
 
 $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.js"];
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

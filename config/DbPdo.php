@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include $_SERVER['DOCUMENT_ROOT']."/config/db.php";
 class DbPdo {
     public static function pdoConnexion(){
         $mysql = "mysql:host=".HOST.";port=".PORT.";dbname=".DBNAME.";";

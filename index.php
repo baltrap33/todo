@@ -5,13 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 $page = 'dashboard';
 $title = 'DashBoard';
-require "./requires/function.php";
-include "./includes/head.php";
+require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $doneFilter = (isset($_GET["doneFilter"]) && !empty($_GET["doneFilter"]))? $_GET["doneFilter"] : null;
 $todos = getAllTodo($doneFilter);
 
-include "./includes/navbar.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
 
     <div class="container">
@@ -119,6 +119,6 @@ $scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.
 if ( $logged ) {
     array_push($scripts, "script-index.js");
 }
-include "./includes/footer.php";
+include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

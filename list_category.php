@@ -1,23 +1,25 @@
 <?php
-require "./requires/function.php";
+if (session_status() == PHP_SESSION_NONE) {
+    session_name("todoList");
+    session_start();
+}
+if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
+    header('Location: /login.php');
+    exit;
+}
 
-$page = 'liste des catégories';
+$page = 'category';
+$title = 'Categories';
+require "./requires/function.php";
 include "./includes/head.php";
 
 $categories = getAllCategories();
+include "./includes/navbar.php";
 ?>
 
     <div class="container">
-        <div class="row">
-            <h1 class="col-12">Category list</h1>
-            <div class="col-9"></div>
-            <div class="col-3">
-                <a href="/index.php">
-                    <button class="btn btn-sm btn-info float-right" type="button">
-                        <i class="fas fa-list mr-2"></i>Todo list
-                    </button>
-                </a>
-            </div>
+        <div class="row mt-3">
+            <h3 class="col-12 text-center">Liste des catégories</h3>
         </div>
         <div class="row mt-5">
             <div class="col-12">

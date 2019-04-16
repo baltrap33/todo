@@ -1,9 +1,34 @@
 <?php
 require "config/DbPdo.php";
 
+$logged = false;
+if ( isset($_SESSION['isConnected']) && $_SESSION['isConnected'] === true ) {
+    $logged = true;
+}
+
 function getConnexion(){
     return DbPdo::pdoConnexion();
 }
+
+function user_login($email, $password){
+    $con = getConnexion();
+    $query = $con->prepare("SELECT * FROM `user` WHERE email= :email and password= :password;");
+    $query->execute(array(':email' => $email, ':password' => sha1($password)));
+    $count = $query->rowCount();
+    if($count == 1){
+        while($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_name("todoList");
+                session_start([
+                    'cookie_lifetime' => 86400,
+                ]);
+            }
+            $_SESSION["user"] = $row;
+        }
+    }
+    return $count == 1;
+}
+
 
 function getAllTodo($doneFilter = null){
     $todos = [];

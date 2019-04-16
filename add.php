@@ -1,7 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_name("todoList");
+    session_start();
+}
+if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
+    header('Location: /login.php');
+    exit;
+}
+$page = '';
+$title = 'Création';
 require "./requires/function.php";
-
-$page = 'création';
 include "./includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
@@ -25,8 +33,12 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
         exit();
     };
 }
+include "./includes/navbar.php";
 ?>
 <div class="container">
+    <div class="row mt-3">
+        <h3 class="col-12 text-center">Créer une tâche</h3>
+    </div>
     <div class="row justify-content-center">
         <div class="col-8 mt-5">
             <form action="<?= $_SERVER['PHP_SELF'];?>" method="post" enctype="multipart/form-data">

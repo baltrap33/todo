@@ -1,7 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_name("todoList");
+    session_start();
+}
+if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
+    header('Location: /login.php');
+    exit;
+}
+$page = '';
+$title = 'Edition';
 require "./requires/function.php";
-
-$page = 'edition';
 include "./includes/head.php";
 
 $id = (isset($_GET["id"]) && !empty($_GET["id"])) ? $_GET["id"] : null;
@@ -32,8 +40,12 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 
 $priorities = getAllPriority();
 $todo = getTodoById($id);
+include "./includes/navbar.php";
 ?>
     <div class="container">
+        <div class="row mt-3">
+            <h3 class="col-12 text-center">Editer une tâche</h3>
+        </div>
         <div class="row justify-content-center">
             <?php
                 if(isset($todo["imgPath"]) && !empty($todo["imgPath"])) {

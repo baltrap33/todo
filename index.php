@@ -1,18 +1,25 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_name("todoList");
+    session_start();
+}
+$page = 'dashboard';
+$title = 'DashBoard';
 require "./requires/function.php";
-
-$page = 'accueil';
 include "./includes/head.php";
 
 $doneFilter = (isset($_GET["doneFilter"]) && !empty($_GET["doneFilter"]))? $_GET["doneFilter"] : null;
 $todos = getAllTodo($doneFilter);
 
+include "./includes/navbar.php";
 ?>
 
     <div class="container">
-        <div class="row">
-            <h1 class="col-12">TODO list</h1>
-            <div class="col-9">
+        <div class="row mt-3">
+            <h3 class="col-12 text-center">Dashboard</h3>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
                 <form class="input-group mb-3" method="get" action="<?= $_SERVER["PHP_SELF"];?>">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Afficher</span>
@@ -23,13 +30,6 @@ $todos = getAllTodo($doneFilter);
                         <option value="true" <?= $doneFilter == 'true'? "selected":"" ?>>les tâches réalisées</option>
                     </select>
                 </form>
-            </div>
-            <div class="col-3">
-                <a href="/list_category.php">
-                    <button class="btn btn-sm btn-info float-right" type="button">
-                        <i class="fas fa-list mr-2"></i>Liste des catégories
-                    </button>
-                </a>
             </div>
         </div>
         <div class="row mt-5">
@@ -44,6 +44,8 @@ $todos = getAllTodo($doneFilter);
                         <th scope="col">Priority</th>
                         <th scope="col">Created at</th>
                         <th scope="col">Updated at</th>
+
+                        <?php if ( $logged ) {?>
                         <th>
                             <a href="/add.php">
                                 <button class="btn btn-sm btn-success float-right">
@@ -51,6 +53,8 @@ $todos = getAllTodo($doneFilter);
                                 </button>
                             </a>
                         </th>
+                        <?php } ?>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -74,13 +78,16 @@ $todos = getAllTodo($doneFilter);
                             <td>
                                 <label class="switch">
                                     <input class="input-checked" data-value="<?= $todo["id"]; ?>"
-                                           type="checkbox" <?= ($todo["done"] == 0)? "":"checked"; ?>>
+                                           type="checkbox" <?= ($todo["done"] == 0)? "":"checked"; ?>
+                                            <?= $logged ? '':'disabled'?>
+                                    >
                                     <span class="slider round"></span>
                                 </label>
                             </td>
                             <td><?= $todo['name'] ?></td>
                             <td><?= $dateCreated->format('H:i d/m/Y'); ?></td>
                             <td class="todo-updated-at"><?= $dateUpdated->format('H:i d/m/Y'); ?></td>
+                        <?php if ( $logged ) {?>
                             <td class="row">
 
                                 <a href="/edit.php?id=<?= $todo["id"]; ?>">
@@ -96,6 +103,7 @@ $todos = getAllTodo($doneFilter);
                                     </button>
                                 </form>
                             </td>
+                        <?php } ?>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -107,7 +115,10 @@ $todos = getAllTodo($doneFilter);
 
 <?php
 
-$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.js", "script-index.js"];
+$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "toastr.min.js"];
+if ( $logged ) {
+    array_push($scripts, "script-index.js");
+}
 include "./includes/footer.php";
 
 ?>

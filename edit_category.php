@@ -1,7 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_name("todoList");
+    session_start();
+}
+if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
+    header('Location: /login.php');
+    exit;
+}
+$page = '';
+$title = 'Edition';
 require "./requires/function.php";
-
-$page = 'edition de la catégorie';
 include "./includes/head.php";
 
 $id_category = (isset($_GET["id_category"]) && !empty($_GET["id_category"])) ? $_GET["id_category"] : null;
@@ -18,14 +26,18 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 }
 
 $category = getCategoryById($id_category);
+include "./includes/navbar.php";
 ?>
     <div class="container">
+        <div class="row mt-3">
+            <h3 class="col-12 text-center">Editer une catégorie</h3>
+        </div>
         <div class="row justify-content-center">
             <div class="col-8 mt-5">
                 <form id="edit-form" action="<?= $_SERVER['PHP_SELF'];?>" method="post">
                     <input type="hidden" name="id_category" value="<?= $category['id_category'];?>" />
                     <div class="form-group">
-                        <label for="task">Libellé</label>
+                        <label for="task">Name :</label>
                         <input type="text"
                                class="form-control"
                                id="name" name="name"

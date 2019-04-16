@@ -20,7 +20,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 
     $updated = updateCategory($id_category, $name);
     if ($updated){
-        header("Location: /list_category.php");
+        header("Location: /category/list_category.php");
         exit();
     }
 }

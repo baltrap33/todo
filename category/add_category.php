@@ -17,7 +17,7 @@ $name = (isset($_POST["name"]) && !empty($_POST["name"]))? $_POST["name"] : null
 
 if( $_SERVER["REQUEST_METHOD"] == "POST" && $name){
     if(createCategory($name)){
-        header("Location: list_category.php");
+        header("Location: /category/list_category.php");
         exit();
     };
 }

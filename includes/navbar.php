@@ -22,6 +22,16 @@
                         <a class="dropdown-item" href="/category/add_category.php">Ajouter une catégorie</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown <?= $page === "user"? "active":""; ?>">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gestion des utilisateurs
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/user/list_user.php">Lister les utilisateurs</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/user/add_user.php">Ajouter un utilisateur</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login.php?deconnexion=true">Déconnexion</a>
                 </li>

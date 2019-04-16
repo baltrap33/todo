@@ -9,11 +9,11 @@ if(!isset($_SESSION['isConnected']) || $_SESSION['isConnected'] !== true ){
 }
 require $_SERVER['DOCUMENT_ROOT']."/requires/function.php";
 
-$id_category = (isset($_POST["id_category"]) && !empty($_POST["id_category"])) ? $_POST["id_category"] : null;
+$id_user = (isset($_POST["id_user"]) && !empty($_POST["id_user"])) ? $_POST["id_user"] : null;
 
-if ($id_category){
-    deleteCategory($id_category);
+if ($id_user){
+    deleteUser($id_user);
 }
 
-header("Location: /category/list_category.php");
+header("Location: /user/list_user.php");
 exit();

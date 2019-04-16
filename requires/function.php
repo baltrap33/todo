@@ -172,7 +172,61 @@ function deleteCategory($id_category){
     $query->execute(array(":id_category"=>$id_category));
 }
 
+function getAllUsers(){
+    $users = [];
 
+    $con = getConnexion();
+    $query = $con->prepare("SELECT * FROM `user`");
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+        array_push($users, $row);
+    }
+
+
+    return $users;
+}
+
+function createUser($username, $email, $password){
+    $con = getConnexion();
+    $query = $con->prepare(
+        "INSERT INTO user (`id_user`,`username`,`email`,`password`) 
+                    VALUES (NULL, :username, :email, :password)");
+    return $query->execute(array(':username'=>$username, ':email'=>$email, ':password'=>sha1($password)));
+}
+
+function getUserById($id_user){
+    $con = getConnexion();
+    $query = $con->prepare("SELECT * FROM user WHERE id_user = :id_user");
+    $query->execute(array(":id_user"=>$id_user));
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    return $user;
+}
+
+function updateUser($id_user, $username, $email, $password = null){
+    $con = getConnexion();
+    $params = array(":id_user"=>$id_user, ":username"=>$username, ":email"=>$email);
+    if (isset($password) && !empty($password)){
+        $params[":password"] = sha1($password);
+        var_dump($params);
+        $query = $con->prepare(
+            "UPDATE user SET `username`= :username, `email`= :email , `password`= :password
+                    WHERE `id_user`= :id_user");
+
+    }else{
+        $query = $con->prepare(
+            "UPDATE user SET `username`= :username, `email`= :email 
+                    WHERE `id_user`= :id_user");
+    }
+    $result = $query->execute($params);
+    return $result;
+}
+
+function deleteUser($id_user){
+    $con = getConnexion();
+    $query = $con->prepare("DELETE FROM user WHERE id_user = :id_user");
+    $query->execute(array(":id_user"=>$id_user));
+}
 
 
 

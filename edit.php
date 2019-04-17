@@ -18,6 +18,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
     $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? $_POST["id"] : null;
     $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
     $task = (isset($_POST["task"]) && !empty($_POST["task"])) ? $_POST["task"] : null;
+    $todoCategories = (isset($_POST["todoCategories"]) && !empty($_POST["todoCategories"]))? $_POST["todoCategories"] : [];
     $priority = (isset($_POST["priority"]) && !empty($_POST["priority"])) ? $_POST["priority"] : null;
     $delete = (isset($_POST["delete"]) && !empty($_POST["delete"])) ? $_POST["delete"] : null;
 
@@ -31,7 +32,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
         move_uploaded_file($file["tmp_name"], $target_file);
     }
 
-    $updated = updateTodo($id, $task,$priority, $target_file, boolval($delete));
+    $updated = updateTodo($id, $task, $priority,$todoCategories, $target_file, boolval($delete));
     if ($updated){
         header("Location: /index.php");
         exit();
@@ -40,6 +41,8 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
 
 $priorities = getAllPriority();
 $todo = getTodoById($id);
+$categories = getAllCategories();
+
 include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 ?>
     <div class="container">
@@ -86,6 +89,30 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
                             <?php }?>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <div>Associer des catégories :</div>
+                        <div class="form-check-inline">
+                            <?php foreach ($categories as $category){
+                                $exists = false;
+                                foreach ($todo["categories"] as $todoCategory){
+                                    if ($todoCategory["id_category"] == $category["id_category"]){
+                                        $exists = true;
+                                    }
+                                }
+                                ?>
+                                <label class="form-check-label mr-3">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="todoCategories[]"
+                                           <?= $exists ? "checked":""; ?>
+                                           value="<?= $category["id_category"]?>" />
+                                    <?= $category["name"]?>
+                                </label>
+                            <?php }?>
+                        </div>
+                    </div>
+
                     <div class="form-group <?= (isset($todo["imgPath"]) && !empty($todo["imgPath"]))? 'd-none':''; ?>" id="add-img-btn">
                         <button type="button" class="btn btn-sm btn-success" id="btn-add-img">
                             <i class="fas fa-image mr-2"></i>Associer une image ?

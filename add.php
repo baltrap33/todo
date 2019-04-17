@@ -14,9 +14,11 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
 $priority = (isset($_POST["priority"]) && !empty($_POST["priority"]))? $_POST["priority"] : null;
+$todoCategories = (isset($_POST["todoCategories"]) && !empty($_POST["todoCategories"]))? $_POST["todoCategories"] : [];
 $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
 
 $priorities = getAllPriority();
+$categories = getAllCategories();
 
 if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
     $target_file = null;
@@ -28,7 +30,7 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" && $task){
         $target_file = $target_dir . $imageFileName . "-" . $time .".". $imageFileType;
         move_uploaded_file($file["tmp_name"], $target_file);
     }
-    if(createTodo($task, $priority, $target_file)){
+    if(createTodo($task, $priority, $todoCategories, $target_file)){
         header("Location: index.php");
         exit();
     };
@@ -59,6 +61,22 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
                         <?php }?>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <div>Associer des catégories :</div>
+                    <div class="form-check-inline">
+                    <?php foreach ($categories as $category){?>
+                        <label class="form-check-label mr-3">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="todoCategories[]"
+                                   value="<?= $category["id_category"]?>" />
+                            <?= $category["name"]?>
+                        </label>
+                    <?php }?>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="task">Ajouter une image :</label>
                     <input type="file"

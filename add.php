@@ -14,7 +14,7 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/head.php";
 
 $task = (isset($_POST["task"]) && !empty($_POST["task"]))? $_POST["task"] : null;
 $priority = (isset($_POST["priority"]) && !empty($_POST["priority"]))? $_POST["priority"] : null;
-$todoCategories = (isset($_POST["todoCategories"]) && !empty($_POST["todoCategories"]))? $_POST["todoCategories"] : [];
+$todoCategories = (isset($_POST["categoriesIds"]) && !empty($_POST["categoriesIds"]))? $_POST["categoriesIds"] : [];
 $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
 
 $priorities = getAllPriority();
@@ -63,19 +63,40 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
                 </div>
 
                 <div class="form-group">
-                    <div>Associer des catégories :</div>
-                    <div class="form-check-inline">
-                    <?php foreach ($categories as $category){?>
-                        <label class="form-check-label mr-3">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   name="todoCategories[]"
-                                   value="<?= $category["id_category"]?>" />
-                            <?= $category["name"]?>
-                        </label>
-                    <?php }?>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="btn-group">
+                                <button type="button"
+                                        class="btn btn-light dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    Ajouter une catégorie :
+                                </button>
+                                <div class="dropdown-menu">
+                                    <?php foreach($categories as $category){ ?>
+                                        <a class="dropdown-item add-category"
+                                           id="category-id-<?= $category["id_category"]?>"
+                                           data-value="<?= $category["id_category"]?>"
+                                           data-name="<?= $category["name"]?>"
+                                           href="#"><?= $category["name"]; ?></a>
+                                    <?php } ?>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/category/add_category.php">Créer une catégorie</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" id="categories"></div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
 
                 <div class="form-group">
                     <label for="task">Ajouter une image :</label>
@@ -95,7 +116,7 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
 </div>
 <?php
 
-$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js"];
+$scripts = ["jquery.min.js", "popperjs.min.js", "bootstrap.min.js", "script-add.js"];
 include $_SERVER['DOCUMENT_ROOT']."/includes/footer.php";
 
 ?>

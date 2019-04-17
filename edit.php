@@ -18,7 +18,7 @@ if ( $_SERVER["REQUEST_METHOD"] == "POST" ){
     $id = (isset($_POST["id"]) && !empty($_POST["id"])) ? $_POST["id"] : null;
     $file = (isset($_FILES["imgTodo"]["name"]) && !empty($_FILES["imgTodo"]["name"])) ? $_FILES["imgTodo"] : null;
     $task = (isset($_POST["task"]) && !empty($_POST["task"])) ? $_POST["task"] : null;
-    $todoCategories = (isset($_POST["todoCategories"]) && !empty($_POST["todoCategories"]))? $_POST["todoCategories"] : [];
+    $todoCategories = (isset($_POST["categoriesIds"]) && !empty($_POST["categoriesIds"]))? $_POST["categoriesIds"] : [];
     $priority = (isset($_POST["priority"]) && !empty($_POST["priority"])) ? $_POST["priority"] : null;
     $delete = (isset($_POST["delete"]) && !empty($_POST["delete"])) ? $_POST["delete"] : null;
 
@@ -91,25 +91,42 @@ include $_SERVER['DOCUMENT_ROOT']."/includes/navbar.php";
                     </div>
 
                     <div class="form-group">
-                        <div>Associer des catégories :</div>
-                        <div class="form-check-inline">
-                            <?php foreach ($categories as $category){
-                                $exists = false;
-                                foreach ($todo["categories"] as $todoCategory){
-                                    if ($todoCategory["id_category"] == $category["id_category"]){
-                                        $exists = true;
-                                    }
-                                }
-                                ?>
-                                <label class="form-check-label mr-3">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="todoCategories[]"
-                                           <?= $exists ? "checked":""; ?>
-                                           value="<?= $category["id_category"]?>" />
-                                    <?= $category["name"]?>
-                                </label>
-                            <?php }?>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="btn-group">
+                                    <button type="button"
+                                            class="btn btn-light dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        Ajouter une catégorie :
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <?php foreach($categories as $category) {
+                                            $exists = false;
+                                            foreach ($todo["categories"] as $todoCategory) {
+                                                if ($todoCategory["id_category"] == $category["id_category"]) {
+                                                    $exists = true;
+                                                }
+                                            }
+                                            ?>
+                                                <a class="dropdown-item add-category" <?= $exists ? "style='display: none;'" :""?>
+                                                   id="category-id-<?= $category["id_category"] ?>"
+                                                   data-value="<?= $category["id_category"] ?>"
+                                                   data-name="<?= $category["name"] ?>"
+                                                   href="#"><?= $category["name"]; ?></a>
+                                            <?php } ?>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/category/add_category.php">Créer une catégorie</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2" id="categories">
+                                <?php foreach ($todo["categories"] as $tdCategory){?>
+                                    <button type="button" data-id="category-id-<?= $tdCategory["id_category"];?>"
+                                            class="btn-input btn btn-success mr-2">
+                                        <input type="hidden" name="categoriesIds[]" value="<?= $tdCategory["id_category"];?>"/>
+                                        <span class="mr-3"><?= $tdCategory["name"];?></span><i class="fas fa-times"></i></button>
+                                <?php }?>
+                            </div>
                         </div>
                     </div>
 
